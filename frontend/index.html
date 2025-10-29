@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador JWT - Lenguajes Formales 2025-2</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-key"></i> Analizador y Validador de JWT</h1>
+                <p class="subtitle">Proyecto Final - Lenguajes Formales 2025-2</p>
+                <p class="description">Análisis Léxico • Sintáctico • Semántico • Codificación • Verificación Criptográfica</p>
+            </div>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="decoder">
+                <i class="fas fa-unlock"></i> Decodificar y Validar
+            </button>
+            <button class="tab-btn" data-tab="encoder">
+                <i class="fas fa-lock"></i> Codificar JWT
+            </button>
+            <button class="tab-btn" data-tab="tests">
+                <i class="fas fa-vial"></i> Casos de Prueba
+            </button>
+            <button class="tab-btn" data-tab="history">
+                <i class="fas fa-history"></i> Historial
+            </button>
+            <button class="tab-btn" data-tab="stats">
+                <i class="fas fa-chart-bar"></i> Estadísticas
+            </button>
+        </nav>
+
+        <!-- Tab Content: Decoder -->
+        <div id="decoder" class="tab-content active">
+            <div class="card">
+                <h2><i class="fas fa-file-code"></i> Analizar JWT Token</h2>
+                
+                <div class="form-group">
+                    <label for="jwt-input">JWT Token:</label>
+                    <textarea 
+                        id="jwt-input" 
+                        class="input-field" 
+                        rows="6" 
+                        placeholder="Pega aquí tu JWT token (formato: xxxxx.yyyyy.zzzzz)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="secret-input">Clave Secreta:</label>
+                    <input 
+                        type="text" 
+                        id="secret-input" 
+                        class="input-field" 
+                        value="your-256-bit-secret"
+                        placeholder="Ingresa la clave secreta">
+                </div>
+
+                <button id="analyze-btn" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Analizar JWT
+                </button>
+            </div>
+
+            <!-- Results Area -->
+            <div id="results-area"></div>
+        </div>
+
+        <!-- Tab Content: Encoder -->
+        <div id="encoder" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-code"></i> Generar Nuevo JWT</h2>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="header-input">Header JSON:</label>
+                        <textarea 
+                            id="header-input" 
+                            class="input-field code-input" 
+                            rows="8">{
+  "alg": "HS256",
+  "typ": "JWT"
+}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payload-input">Payload JSON:</label>
+                        <textarea 
+                            id="payload-input" 
+                            class="input-field code-input" 
+                            rows="8">{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "iat": 1516239022,
+  "exp": 9999999999
+}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="secret-encode">Clave Secreta:</label>
+                    <input 
+                        type="text" 
+                        id="secret-encode" 
+                        class="input-field" 
+                        value="your-256-bit-secret"
+                        placeholder="Clave para firmar el token">
+                </div>
+
+                <button id="encode-btn" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Generar JWT
+                </button>
+            </div>
+
+            <div id="encode-results"></div>
+        </div>
+
+        <!-- Tab Content: Test Cases -->
+        <div id="tests" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-vial"></i> Casos de Prueba</h2>
+                <p class="info-text">
+                    <i class="fas fa-info-circle"></i> 
+                    Haz clic en "Cargar" para probar cada caso automáticamente
+                </p>
+            </div>
+
+            <div id="test-cases-area" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Cargando casos de prueba...
+            </div>
+        </div>
+
+        <!-- Tab Content: History -->
+        <div id="history" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-history"></i> Historial de Análisis</h2>
+                <button id="refresh-history-btn" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </button>
+            </div>
+
+            <div id="history-area" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Cargando historial...
+            </div>
+        </div>
+
+        <!-- Tab Content: Statistics -->
+        <div id="stats" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-chart-bar"></i> Estadísticas del Sistema</h2>
+                <button id="refresh-stats-btn" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </button>
+            </div>
+
+            <div id="stats-area" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Cargando estadísticas...
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 - Proyecto Final Lenguajes Formales | UPTC</p>
+            <p>Desarrollado con Flask + Python + MongoDB</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

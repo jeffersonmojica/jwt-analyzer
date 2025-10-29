@@ -4,5 +4,5 @@ Aplicación web para analizar, decodificar y generar **tokens JWT (JSON Web Toke
 
 
 # Integrantes
-Jefferson Mojica Trejos - 202021456
-Cristian Camilo Galindo - 000000000
+Jefferson Mojica Trejos - 202021456.
+Cristian Camilo Galindo - 000000000.

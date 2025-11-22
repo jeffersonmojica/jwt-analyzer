@@ -29,7 +29,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         self.assertEqual(result['tokens'][2]['type'], 'PAYLOAD')
         self.assertEqual(result['tokens'][3]['type'], 'SEPARATOR')
         self.assertEqual(result['tokens'][4]['type'], 'SIGNATURE')
-        print("✅ Prueba 1: Análisis léxico - PASÓ")
+        print("Prueba 1: Análisis léxico - PASÓ")
     
     def test_lexical_analysis_malformed_token(self):
         """Prueba 2: Token malformado (solo 2 partes)"""
@@ -39,7 +39,7 @@ class TestJWTAnalyzer(unittest.TestCase):
             self.analyzer.lexical_analysis(malformed_token)
         
         self.assertIn('3 partes', str(context.exception))
-        print("✅ Prueba 2: Token malformado - PASÓ")
+        print("Prueba 2: Token malformado - PASÓ")
     
     # ========== PRUEBAS FASE 4: DECODIFICACIÓN ==========
     
@@ -51,7 +51,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         self.assertIsInstance(decoded, dict)
         self.assertEqual(decoded['alg'], 'HS256')
         self.assertEqual(decoded['typ'], 'JWT')
-        print("✅ Prueba 3: Decodificación Base64URL - PASÓ")
+        print("Prueba 3: Decodificación Base64URL - PASÓ")
     
     def test_decode_jwt_valid_token(self):
         """Prueba 4: Decodificación completa de JWT"""
@@ -61,7 +61,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         self.assertIn('payload', result)
         self.assertIn('signature', result)
         self.assertEqual(result['header']['alg'], 'HS256')
-        print("✅ Prueba 4: Decodificación JWT completa - PASÓ")
+        print("Prueba 4: Decodificación JWT completa - PASÓ")
     
     # ========== PRUEBAS FASE 2: ANÁLISIS SINTÁCTICO ==========
     
@@ -74,7 +74,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertTrue(result['valid'])
         self.assertEqual(len(result['errors']), 0)
-        print("✅ Prueba 5: Análisis sintáctico válido - PASÓ")
+        print("Prueba 5: Análisis sintáctico válido - PASÓ")
     
     def test_syntactic_analysis_invalid_header(self):
         """Prueba 6: Header inválido (no es objeto)"""
@@ -85,7 +85,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertFalse(result['valid'])
         self.assertGreater(len(result['errors']), 0)
-        print("✅ Prueba 6: Header inválido detectado - PASÓ")
+        print("Prueba 6: Header inválido detectado - PASÓ")
     
     # ========== PRUEBAS FASE 3: ANÁLISIS SEMÁNTICO ==========
     
@@ -103,7 +103,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertTrue(result['valid'])
         self.assertGreater(len(result['symbol_table']), 0)
-        print("✅ Prueba 7: Análisis semántico válido - PASÓ")
+        print("Prueba 7: Análisis semántico válido - PASÓ")
     
     def test_semantic_analysis_missing_alg(self):
         """Prueba 8: Campo obligatorio 'alg' faltante"""
@@ -114,7 +114,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertFalse(result['valid'])
         self.assertTrue(any('alg' in error for error in result['errors']))
-        print("✅ Prueba 8: Campo 'alg' faltante detectado - PASÓ")
+        print("Prueba 8: Campo 'alg' faltante detectado - PASÓ")
     
     def test_semantic_analysis_expired_token(self):
         """Prueba 9: Token expirado"""
@@ -128,7 +128,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertFalse(result['valid'])
         self.assertTrue(any('expirado' in error.lower() for error in result['errors']))
-        print("✅ Prueba 9: Token expirado detectado - PASÓ")
+        print("Prueba 9: Token expirado detectado - PASÓ")
     
     def test_semantic_analysis_invalid_exp_type(self):
         """Prueba 10: Tipo de dato incorrecto en 'exp'"""
@@ -142,7 +142,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertFalse(result['valid'])
         self.assertTrue(any('exp' in error and 'numérico' in error for error in result['errors']))
-        print("✅ Prueba 10: Tipo incorrecto en 'exp' detectado - PASÓ")
+        print("Prueba 10: Tipo incorrecto en 'exp' detectado - PASÓ")
     
     # ========== PRUEBAS FASE 5: CODIFICACIÓN ==========
     
@@ -161,7 +161,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         self.assertIn('token', result)
         self.assertEqual(result['algorithm'], 'HS256')
         self.assertEqual(len(result['token'].split('.')), 3)
-        print("✅ Prueba 11: Codificación JWT HS256 - PASÓ")
+        print("Prueba 11: Codificación JWT HS256 - PASÓ")
     
     def test_encode_jwt_without_alg(self):
         """Prueba 12: Codificación sin campo 'alg'"""
@@ -172,7 +172,7 @@ class TestJWTAnalyzer(unittest.TestCase):
             self.analyzer.encode_jwt(header, payload, self.secret_key)
         
         self.assertIn('alg', str(context.exception))
-        print("✅ Prueba 12: Error sin 'alg' detectado - PASÓ")
+        print("Prueba 12: Error sin 'alg' detectado - PASÓ")
     
     # ========== PRUEBAS FASE 6: VERIFICACIÓN CRIPTOGRÁFICA ==========
     
@@ -188,7 +188,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertTrue(result['valid'])
         self.assertEqual(result['algorithm'], 'HS256')
-        print("✅ Prueba 13: Firma válida verificada - PASÓ")
+        print("Prueba 13: Firma válida verificada - PASÓ")
     
     def test_verify_signature_invalid(self):
         """Prueba 14: Verificación de firma inválida"""
@@ -203,7 +203,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         )
         
         self.assertFalse(result['valid'])
-        print("✅ Prueba 14: Firma inválida detectada - PASÓ")
+        print("Prueba 14: Firma inválida detectada - PASÓ")
     
     def test_verify_signature_wrong_secret(self):
         """Prueba 15: Verificación con clave incorrecta"""
@@ -218,7 +218,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         )
         
         self.assertFalse(result['valid'])
-        print("✅ Prueba 15: Clave incorrecta detectada - PASÓ")
+        print("Prueba 15: Clave incorrecta detectada - PASÓ")
     
     # ========== PRUEBAS ANÁLISIS COMPLETO ==========
     
@@ -230,7 +230,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         self.assertTrue(result['is_valid'])
         self.assertIn('phases', result)
         self.assertEqual(result['summary']['total_errors'], 0)
-        print("✅ Prueba 16: Análisis completo exitoso - PASÓ")
+        print("Prueba 16: Análisis completo exitoso - PASÓ")
     
     def test_analyze_complete_malformed_token(self):
         """Prueba 17: Análisis de token malformado"""
@@ -240,7 +240,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertFalse(result['success'])
         self.assertIn('error', result)
-        print("✅ Prueba 17: Token malformado detectado en análisis completo - PASÓ")
+        print("Prueba 17: Token malformado detectado en análisis completo - PASÓ")
     
     # ========== PRUEBAS DE ALGORITMOS ==========
     
@@ -259,7 +259,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertEqual(decoded['header']['alg'], 'HS384')
         self.assertEqual(decoded['payload']['sub'], '1234567890')
-        print("✅ Prueba 18: HS384 codificación/decodificación - PASÓ")
+        print("Prueba 18: HS384 codificación/decodificación - PASÓ")
     
     def test_encode_decode_hs512(self):
         """Prueba 19: Codificación y decodificación HS512"""
@@ -277,7 +277,7 @@ class TestJWTAnalyzer(unittest.TestCase):
         
         self.assertEqual(decoded['header']['alg'], 'HS512')
         self.assertTrue(verify_result['valid'])
-        print("✅ Prueba 19: HS512 codificación/verificación - PASÓ")
+        print("Prueba 19: HS512 codificación/verificación - PASÓ")
     
     def test_base64url_encode_decode_cycle(self):
         """Prueba 20: Ciclo completo de codificación/decodificación Base64URL"""
@@ -292,13 +292,13 @@ class TestJWTAnalyzer(unittest.TestCase):
         decoded = self.analyzer.base64url_decode(encoded)
         
         self.assertEqual(decoded, original_data)
-        print("✅ Prueba 20: Ciclo Base64URL completo - PASÓ")
+        print("Prueba 20: Ciclo Base64URL completo - PASÓ")
 
 
 def run_tests():
     """Ejecutar todas las pruebas"""
     print("\n" + "="*60)
-    print("  🧪 EJECUTANDO SUITE DE PRUEBAS - ANALIZADOR JWT")
+    print("EJECUTANDO SUITE DE PRUEBAS - ANALIZADOR JWT")
     print("="*60 + "\n")
     
     # Crear suite de pruebas
@@ -311,17 +311,17 @@ def run_tests():
     
     # Resumen
     print("\n" + "="*60)
-    print("  📊 RESUMEN DE PRUEBAS")
+    print("RESUMEN DE PRUEBAS")
     print("="*60)
-    print(f"✅ Pruebas exitosas: {result.testsRun - len(result.failures) - len(result.errors)}")
-    print(f"❌ Pruebas fallidas: {len(result.failures)}")
-    print(f"⚠️  Errores: {len(result.errors)}")
-    print(f"📈 Total de pruebas: {result.testsRun}")
+    print(f"Pruebas exitosas: {result.testsRun - len(result.failures) - len(result.errors)}")
+    print(f"Pruebas fallidas: {len(result.failures)}")
+    print(f"Errores: {len(result.errors)}")
+    print(f"Total de pruebas: {result.testsRun}")
     
     if result.wasSuccessful():
-        print("\n🎉 ¡TODAS LAS PRUEBAS PASARON EXITOSAMENTE!")
+        print("\n¡TODAS LAS PRUEBAS PASARON EXITOSAMENTE!")
     else:
-        print("\n⚠️  Algunas pruebas fallaron. Revisa los detalles arriba.")
+        print("\nAlgunas pruebas fallaron. Revisa los detalles arriba.")
     
     print("="*60 + "\n")
     

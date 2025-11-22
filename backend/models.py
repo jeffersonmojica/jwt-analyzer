@@ -83,7 +83,7 @@ class TestCaseModel:
                 {
                    'name': 'Token Válido HS384',
                 'description': 'Token con algoritmo HS384',
-                'token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.DiHJZvNzL8FM5u30bXGQKPr6E_33l_v6cLgB7OQsKqy-N2CmzG9P6t0sSrXChqrp',
+                'token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.5-o2BxpiDAn5JJMa9t61vB2UOgAs61qqs-vK--MC6CKM7aTAcjabaeWJhUo22AMy',
                 'secret': 'your-384-bit-secret',
                 'expected_result': 'valid',
                 'category': 'valid',

@@ -5,7 +5,7 @@ from config import Config
 import certifi
 
 # Crear cliente con opciones SSL específicas
-client = MongoClient(
+"""client = MongoClient(
     Config.MONGODB_URI,
     server_api=ServerApi('1'),
     tlsCAFile=certifi.where(),
@@ -16,7 +16,20 @@ client = MongoClient(
     socketTimeoutMS=10000
 )
 
-db = client.jwt_analyzer
+db = client.jwt_analyzer"""
+
+client = MongoClient(
+    Config.MONGODB_URI,
+    server_api=ServerApi('1'),
+    tls=True,                      # Activa TLS moderno
+    tlsCAFile=certifi.where(),     # Certificados confiables
+    serverSelectionTimeoutMS=5000,
+    connectTimeoutMS=10000,
+    socketTimeoutMS=10000
+)
+
+db = client.get_database()  # Atlas toma la base de datos de la URI automáticamente
+
 
 # Colecciones
 tokens_collection = db.tokens

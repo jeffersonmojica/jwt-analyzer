@@ -1,0 +1,3 @@
+Retrieving logs...
+Logs were saved to C:\Users\jeffe\OneDrive\Documentos\UPTC\SEMESTRE 2025\Lenguajes\Proyecto final\jwt-analyzer\.elasticbeanstalk\logs\251122_215546
+Logs were saved to C:\Users\jeffe\OneDrive\Documentos\UPTC\SEMESTRE 2025\Lenguajes\Proyecto final\jwt-analyzer\.elasticbeanstalk\logs\251122_215546

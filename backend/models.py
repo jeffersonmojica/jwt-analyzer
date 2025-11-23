@@ -1,14 +1,28 @@
 from datetime import datetime
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from config import Config
+import certifi
 
-client = MongoClient(Config.MONGODB_URI)
+# Crear cliente con opciones SSL específicas
+client = MongoClient(
+    Config.MONGODB_URI,
+    server_api=ServerApi('1'),
+    tlsCAFile=certifi.where(),
+    tls=True,
+    tlsAllowInvalidCertificates=True,
+    serverSelectionTimeoutMS=5000,
+    connectTimeoutMS=10000,
+    socketTimeoutMS=10000
+)
+
 db = client.jwt_analyzer
 
 # Colecciones
 tokens_collection = db.tokens
 analysis_collection = db.analysis_results
 test_cases_collection = db.test_cases
+
 
 class TokenModel:
     @staticmethod
@@ -34,6 +48,7 @@ class TokenModel:
         if token:
             token['_id'] = str(token['_id'])
         return token
+
 
 class AnalysisModel:
     @staticmethod
@@ -65,6 +80,7 @@ class AnalysisModel:
             'success_rate': (valid / total * 100) if total > 0 else 0
         }
 
+
 class TestCaseModel:
     @staticmethod
     def initialize_test_cases():
@@ -73,26 +89,26 @@ class TestCaseModel:
             test_cases = [
                 {
                     'name': 'Token Válido HS256',
-                'description': 'Token correctamente formado con algoritmo HS256',
-                'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.Vg30C57s3l90JNap_VgMhKZjfc-p7SoBXaSAy8c28HA',
-                'secret': 'your-256-bit-secret',  # ← Esta es la clave correcta
-                'expected_result': 'valid',
-                'category': 'valid',
-                'created_at': datetime.utcnow()
+                    'description': 'Token correctamente formado con algoritmo HS256',
+                    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.Vg30C57s3l90JNap_VgMhKZjfc-p7SoBXaSAy8c28HA',
+                    'secret': 'your-256-bit-secret',
+                    'expected_result': 'valid',
+                    'category': 'valid',
+                    'created_at': datetime.utcnow()
                 },
                 {
-                   'name': 'Token Válido HS384',
-                'description': 'Token con algoritmo HS384',
-                'token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.5-o2BxpiDAn5JJMa9t61vB2UOgAs61qqs-vK--MC6CKM7aTAcjabaeWJhUo22AMy',
-                'secret': 'your-384-bit-secret',
-                'expected_result': 'valid',
-                'category': 'valid',
-                'created_at': datetime.utcnow()
+                    'name': 'Token Válido HS384',
+                    'description': 'Token con algoritmo HS384',
+                    'token': 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk5OTk5OTk5OTl9.DiHJZvNzL8FM5u30bXGQKPr6E_33l_v6cLgB7OQsKqy-N2CmzG9P6t0sSrXChqrp',
+                    'secret': 'your-384-bit-secret',
+                    'expected_result': 'valid',
+                    'category': 'valid',
+                    'created_at': datetime.utcnow()
                 },
                 {
                     'name': 'Token Expirado',
                     'description': 'Token con fecha de expiración pasada',
-                    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+                    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj0mCKmXg0K4RbFb3jg-CP5OBNLW3aAOG0WvMm9s',
                     'secret': 'your-256-bit-secret',
                     'expected_result': 'expired',
                     'category': 'temporal',
